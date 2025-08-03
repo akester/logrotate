@@ -6,8 +6,19 @@ name: build
 steps:
 - name: build
   commands:
-    - packer init .
-    - packer build .
-- name: push
+    - make
+
+- name: push-local
+  depends_on:
+    - build
   commands:
-    - docker push registry.gatewayks.net/containername:latest
+    - make push-local
+
+- name: push-remote
+  environment:
+    DOCKER_TOKEN:
+      from_secret: DOCKER_TOKEN_AKESTER
+  depends_on:
+    - build
+  commands:
+    - make push-remote
