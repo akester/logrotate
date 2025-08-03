@@ -1,0 +1,13 @@
+---
+kind: pipeline
+type: exec
+name: build
+
+steps:
+- name: build
+  commands:
+    - packer init .
+    - packer build .
+- name: push
+  commands:
+    - docker push registry.gatewayks.net/containername:latest
