@@ -1,10 +1,105 @@
-# Container Template
+# Logrotate
 
-(Feel free to remove this file in your final repo)
+This container is intended to run logrotate using a PVC against local log files.
+Inspired by https://github.com/mkilchhofer/logrotate-container
 
-This is a template for packer to build and package a container for our local
-registry.  You'll need to edit both files, and replace `containername` with the
-name of the final container.
+## Tags
 
-This uses Packer, and the drone exec pipeline, so it runs directly on the build
-host.
+This image comes in two flavors, Debian 12 and the latest Alpine.  I personally
+prefer Debian due to familiarity, but since it makes a fairly large container, I
+build an alpine variant as well.  Both operate in the same way.
+
+To use either, use either the `debian12` or `alpine` tag in your configuration.
+
+If you don't pick one, `debian12` is aliased as the `latest` tag and will be
+used.
+
+## Example Usage
+
+Define the logrotate config itself:
+
+```
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logrotate-config
+data:
+  my_logs.conf: |
+    /var/log/app/*.log {
+        daily
+        missingok
+        rotate 7
+        compress
+        delaycompress
+        dateformat -%Y%m%d_%H%M%S
+        notifempty
+        copytruncate
+        su
+    }
+  my_txt_logs.conf: |
+    /var/log/app/*.txt {
+        daily
+        missingok
+        rotate 3
+        compress
+        delaycompress
+        dateformat -%Y%m%d_%H%M%S
+        notifempty
+        copytruncate
+        su
+    }
+```
+
+Then define a cron to run this container with that config:
+
+```
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: app-logrotate
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: logrotate
+            image: akester/logrotate
+            volumeMounts:
+            - name: logrotate-conf
+              mountPath: /etc/logrotate.d
+            - name: app-logs
+              mountPath: /var/log/app
+          volumes:
+          - name: logrotate-conf
+            configMap:
+              name: logrotate-config
+          - name: app-logs
+            persistentVolumeClaim:
+              claimName: app-logs-pv
+          restartPolicy: OnFailure
+```
+
+## Development
+
+This is built using Packer.  If you haven't run `init`, do that first then you
+can build.
+
+```
+packer init .
+packer build .
+```
+
+This will build all versions of the container, and tag each for both public
+pushing and pushing to an internal registry that you can probably ignore or
+comment out.
+
+## Mirror
+
+If you're looking at this repo at https://github.com/akester/logrotate/, know
+that it's a mirror of my local code repository.  This repo is monitored though,
+so any pull requests or issues will be seen.
