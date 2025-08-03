@@ -5,14 +5,8 @@ Inspired by https://github.com/mkilchhofer/logrotate-container
 
 ## Tags
 
-This image comes in two flavors, Debian 12 and the latest Alpine.  I personally
-prefer Debian due to familiarity, but since it makes a fairly large container, I
-build an alpine variant as well.  Both operate in the same way.
-
-To use either, use either the `debian12` or `alpine` tag in your configuration.
-
-If you don't pick one, `debian12` is aliased as the `latest` tag and will be
-used.
+Just use `latest`.  It's based on Alpine and updated weekly to catch any
+upstream changes and updates.
 
 ## Example Usage
 
@@ -93,10 +87,6 @@ can build.
 packer init .
 packer build .
 ```
-
-This will build all versions of the container, and tag each for both public
-pushing and pushing to an internal registry that you can probably ignore or
-comment out.
 
 ## Mirror
 
