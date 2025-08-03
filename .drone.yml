@@ -8,12 +8,6 @@ steps:
   commands:
     - make
 
-- name: push-local
-  depends_on:
-    - build
-  commands:
-    - make push-local
-
 - name: push-remote
   environment:
     DOCKER_TOKEN:
