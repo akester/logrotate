@@ -63,9 +63,9 @@ build {
       "set -e",
       "set -x",
       "rm -f /etc/apt/apt.conf.d/01proxy",
-      "apt update",
-      "apt autoremove",
-      "apt clean",
+      "apt-get update",
+      "apt-get autoremove",
+      "apt-get clean",
     ]
     inline_shebang = "/bin/bash -e"
   }
