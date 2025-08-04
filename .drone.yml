@@ -16,3 +16,6 @@ steps:
     - build
   commands:
     - make push-remote
+  when:
+      branch:
+        - master
