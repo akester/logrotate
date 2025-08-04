@@ -9,5 +9,3 @@ login:
 
 push-remote: login
 	docker push akester/logrotate:latest
-	docker push akester/logrotate:debian12
-	docker push akester/logrotate:alpine

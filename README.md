@@ -80,13 +80,8 @@ spec:
 
 ## Development
 
-This is built using Packer.  If you haven't run `init`, do that first then you
-can build.
-
-```
-packer init .
-packer build .
-```
+The container is built using Packer and has a Makefile, just run `make` to start
+a build.
 
 ## Mirror
 
