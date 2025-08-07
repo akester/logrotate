@@ -6,7 +6,7 @@ variable "version" {
 source "docker" "alpine" {
   commit = true
   image  = "alpine:latest"
-  "changes" : [
+  changes = [
     "CMD [\"logrotate\", \"-v\", \"/etc/logrotate.conf\"]"
   ]
 }
