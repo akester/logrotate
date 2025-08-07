@@ -8,6 +8,15 @@ Inspired by https://github.com/mkilchhofer/logrotate-container
 Just use `latest`.  It's based on Alpine and updated weekly to catch any
 upstream changes and updates.
 
+## Config
+
+This accepts a single environment variable, `STATE_FILE_PATH`, for a state file
+created by logrotate.  It's best if this is stored on a volume that will survive
+the container restarting.
+
+By default this is in `/var/log/app/logrotate.state`, but it can be set anywhere
+(or discarded and state won't be saved).
+
 ## Example Usage
 
 Define the logrotate config itself:

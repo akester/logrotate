@@ -7,7 +7,7 @@ source "docker" "alpine" {
   commit = true
   image  = "alpine:latest"
   changes = [
-    "CMD [\"logrotate\", \"-v\", \"/etc/logrotate.conf\"]"
+    "CMD [\"/run.sh\"]"
   ]
 }
 
@@ -41,6 +41,17 @@ build {
     inline = [
       "chmod 0644 /etc/logrotate.conf",
       "mkdir /etc/logrotate.d",
+    ]
+  }
+
+  # add our run script
+  provisioner "file" {
+    source      = "run.sh"
+    destination = "/run.sh"
+  }
+  provisioner "shell" {
+    inline = [
+      "chmod 0755 /run.sh",
     ]
   }
 
