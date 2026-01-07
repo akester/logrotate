@@ -1,0 +1,21 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  tags:
+    - exec
+  script:
+    - make
+
+push-remote:
+  stage: deploy
+  tags:
+    - exec
+  dependencies:
+    - build
+  script:
+    - make push-remote
+  only:
+    - master
