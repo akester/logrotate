@@ -8,14 +8,6 @@ build:
     - exec
   script:
     - make
-
-push-remote:
-  stage: deploy
-  tags:
-    - exec
-  dependencies:
-    - build
-  script:
     - make push-remote
   only:
     - master
