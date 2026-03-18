@@ -3,16 +3,29 @@ variable "version" {
   default = "latest"
 }
 
-source "docker" "alpine" {
+source "docker" "alpine-amd64" {
   commit = true
   image  = "alpine:latest"
   changes = [
     "CMD [\"/run.sh\"]"
   ]
+  platform = "linux/amd64"
+}
+
+source "docker" "alpine-arm64" {
+  commit = true
+  image  = "arm64v8/alpine:latest"
+  changes = [
+    "CMD [\"/run.sh\"]"
+  ]
+  platform = "linux/arm64"
 }
 
 build {
-  sources = ["source.docker.alpine"]
+  sources = [
+    "source.docker.alpine-amd64",
+    "source.docker.alpine-arm64"
+  ]
 
   # Upgrade the software
   provisioner "shell" {
@@ -65,8 +78,7 @@ build {
   post-processor "docker-tag" {
     repository = "akester/logrotate"
     tags = [
-      "${var.version}",
-      "alpine"
+      "${source.name}",
     ]
   }
 }
