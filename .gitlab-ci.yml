@@ -7,7 +7,7 @@ build-x86:
   tags:
     - exec
   script:
-    - make x86
+    - make build-x86
     - make push-x86
   only:
     - master
@@ -17,7 +17,7 @@ build-arm:
   tags:
     - exec-arm
   script:
-    - make arm
+    - make build-arm
     - make push-arm
   only:
     - master
