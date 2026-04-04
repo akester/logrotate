@@ -26,7 +26,7 @@ push-manifest:
   stage: deploy
   tags:
     - exec
-  depends_on:
+  depends:
     - build-x86
     - build-arm
   script:
