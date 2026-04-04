@@ -2,12 +2,34 @@ stages:
   - build
   - deploy
 
-build:
+build-x86:
   stage: build
   tags:
     - exec
   script:
-    - make
-    - make push-remote
+    - make x86
+    - make push-x86
+  only:
+    - master
+
+build-arm:
+  stage: build
+  tags:
+    - exec-arm
+  script:
+    - make arm
+    - make push-arm
+  only:
+    - master
+
+push-manifest:
+  stage: deploy
+  tags:
+    - exec
+  depends_on:
+    - build-x86
+    - build-arm
+  script:
+    - make push-manifest
   only:
     - master
