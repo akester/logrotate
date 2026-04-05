@@ -1,6 +1,5 @@
 variable "version" {
   type    = string
-  default = "latest"
 }
 
 source "docker" "alpine-amd64" {
@@ -78,7 +77,7 @@ build {
   post-processor "docker-tag" {
     repository = "akester/logrotate"
     tags = [
-      "${source.name}",
+      "${source.name}-${var.version}",
     ]
   }
 }
