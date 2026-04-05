@@ -19,6 +19,6 @@ login:
 	echo '${DOCKER_TOKEN}' | docker login --username akester --password-stdin
 
 push-manifest: login
-	docker manifest create $(IMAGE_NAME):$(CI_COMMIT_BRANCH) $(IMAGE_NAME):alpine-amd64 $(IMAGE_NAME):alpine-arm64
-	docker manifest annotate $(IMAGE_NAME):$(CI_COMMIT_BRANCH) $(IMAGE_NAME):alpine-arm64 --os linux --arch arm64
+	docker manifest create $(IMAGE_NAME):$(CI_COMMIT_BRANCH) $(IMAGE_NAME):alpine-amd64-$(CI_COMMIT_BRANCH) $(IMAGE_NAME):alpine-arm64-$(CI_COMMIT_BRANCH)
+	docker manifest annotate $(IMAGE_NAME):$(CI_COMMIT_BRANCH) $(IMAGE_NAME):alpine-arm64-$(CI_COMMIT_BRANCH) --os linux --arch arm64
 	docker manifest push --purge $(IMAGE_NAME):$(CI_COMMIT_BRANCH)
