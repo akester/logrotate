@@ -7,11 +7,11 @@ build-arm: init
 	packer build --only=docker.alpine-arm64 .
 
 push-x86: login
-	docker push $(IMAGE_NAME):alpine-amd64
+	docker push $(IMAGE_NAME):alpine-amd64-$(CI_COMMIT_BRANCH)
 
 push-arm: login
-	docker push $(IMAGE_NAME):alpine-arm64
-	
+	docker push $(IMAGE_NAME):alpine-arm64-$(CI_COMMIT_BRANCH)
+
 init:
 	packer init .
 
