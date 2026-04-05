@@ -1,4 +1,4 @@
-environment:
+variables:
   PKR_VAR_version: $CI_COMMIT_BRANCH
 
 stages:
